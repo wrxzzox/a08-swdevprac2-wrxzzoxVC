@@ -1,24 +1,24 @@
-import Card from "./Card"
+import Productcard from "./Card"
 import Link from "next/link"
 
-export default async function VenueCatalog( {venuesJson} : {venuesJson:Promise<VenueJson>}) {
+export default async function VenueCatalog({venuesJson} :{venuesJson:Promise<VenueJson>}) {
+    
     const venueJsonReady = await venuesJson
 
     return (
-        <div>
-            <div className="text-black text-center">{venueJsonReady.count} catalogs, take it or leave it</div>
-            <div className="m-5 flex flex-row flex-wrap items-center justify-around gap-5">
+        <>
+        Explore {venueJsonReady.count} models in our catalog
+            <div style = {{margin:"20px", display:"flex", flexDirection:"row", flexWrap:"wrap", justifyContent:"space-around", alignContent:"space-around", padding:"10px" }}>
                 {
                     venueJsonReady.data.map((venueItem:VenueItem) => (
-                        <Link key={venueItem.name} href={`/venue/${venueItem.id}`} className="w-1/5">
-                            <Card
-                                venueName={venueItem.name}
-                                imgSrc={venueItem.picture}
-                            />
+                        <Link key = {venueItem.name} href = {`/venue/${venueItem.id}`} className = "w-1/5">
+                            <Productcard venueName = {venueItem.name} imgSrc = {venueItem.picture}/>
                         </Link>
+                        
+                        
                     ))
-                }               
+                }
             </div>
-        </div>
+        </>
     )
 }

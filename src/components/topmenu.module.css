@@ -1,20 +1,22 @@
 .menucontainer {
-    height: 96px;
-    background-color: rgb(85, 85, 85);
+    height: 50px;
+    background-color: white;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0px;
+    left: 0px;
+    right: 0px;
     z-index: 30;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
     display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid white;
+    justify-content: flex-end;
+    align-items: center;
+
 }
 
 .logoimg {
     height: 100%;
     width: auto;
-    margin-left: 40px;
 }
 
 .itemcontainer {
@@ -22,12 +24,8 @@
     text-align: center;
     margin-top: auto;
     margin-bottom: auto;
-    font-size: 24px;
-    color: white;
-    transition: .3s;
-}
-
-.itemcontainer:hover {
-    color: cyan;
-    transition: .3s;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 10pt;
+    color: grey;
+    margin-right: 15px ;
 }

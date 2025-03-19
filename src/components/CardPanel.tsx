@@ -1,6 +1,6 @@
 'use client'
 import { useReducer, useRef, useEffect } from 'react'
-import Card from '@/components/Card'
+import Productcard from '@/components/Card'
 import Link from 'next/link'
 
 export default function CardPanel() {
@@ -20,42 +20,63 @@ export default function CardPanel() {
             default: return ratingList;
         }
     }
-    
-    /*
-        Mock Data for Demonstration Only
-    */
-   
-   const mockVenueRepo = [
-       { vid: "001", name: "The Bloom Pavilion", image:"/img/bloom.jpg" },
-       { vid: "002", name: "Spark Space", image:"/img/sparkspace.jpg" },
-       { vid: "003", name: "The Grand Table", image:"/img/grandtable.jpg" }
-    ];
 
-    const ratingMap = new Map<string, number>();
+    const [ratingList, dispatchRating] = useReducer(cardReducer, new Map<string, number>([
+        ["The Bloom Pavilion", 0],
+        ["Spark Space", 0],
+        ["The Grand Table", 0]
+    ]));
 
-    mockVenueRepo.map((venueItem) => {
-        ratingMap.set(venueItem.name, 0);
-    });
+    const mockCardRepo = [
+        {vid: "001", name:'The Bloom Pavilion', image:'/img/bloom.jpg' },
+        {vid: "002", name:'Spark Space', image:'/img/sparkspace.jpg' },
+        {vid: "003", name:'The Grand Table', image:'/img/grandtable.jpg' },
+        
+    ]
 
-    const [ratingList, dispatchRating] = useReducer(cardReducer, ratingMap);
-    
+    // const [carResponse, setCarResponse] = useState(null)
+
+    // useEffect( () => {
+    //     const fetchData = async () => {
+    //         const cars = await getCars() 
+    //         setCarResponse(cars)
+    //     }
+    //     fetchData()
+    // }, [])
+
+
     return (
         <div>
             <div style={{display: "flex", justifyContent: "center", gap: "3%", marginTop: "20px"}}>
                 {
-                    mockVenueRepo.map((venueItem) => 
-                        <Link key={venueItem.name} href={`/venue/${venueItem.vid}`} className="w-1/5">
-                            <Card venueName={venueItem.name} imgSrc={venueItem.image}
-                            dispatch={(venue: string, newRating: number) => {dispatchRating({type: "set", venueName: venue, rating: newRating})}}
-                            rating={ratingList.get(venueItem.name)}/>
+                    mockCardRepo.map((cardItem) => (
+                        <Link key={cardItem.vid} href={`/venue/${cardItem.vid}`} className='w-1/5'>
+                            <Productcard 
+                                venueName={cardItem.name} 
+                                imgSrc={cardItem.image}
+                                dispatch={(venue: string, newRating: number) => {
+                                    dispatchRating({ type: "set", venueName: venue, rating: newRating });
+                                }}
+                                rating={ratingList.get(cardItem.name)}
+                            />
                         </Link>
-                    )
+                    ))
+                    
                 }
+
+                {/* <Productcard venueName='The Bloom Pavilion' imgSrc='/img/bloom.jpg' 
+                dispatch={(venue: string, newRating: number) => {dispatchRating({type: "set", venueName: venue, rating: newRating})}}
+                rating={ratingList.get('The Bloom Pavilion')}/>
+                <Productcard venueName='Spark Space' imgSrc='/img/sparkspace.jpg' 
+                dispatch={(venue: string, newRating: number) => {dispatchRating({type: "set", venueName: venue, rating: newRating})}} 
+                rating={ratingList.get('Spark Space')}/>
+                <Productcard venueName='The Grand Table' imgSrc='/img/grandtable.jpg' 
+                dispatch={(venue: string, newRating: number) => {dispatchRating({type: "set", venueName: venue, rating: newRating})}}
+                rating={ratingList.get('The Grand Table')}/> */}
             </div>
             <div className="w-full text-2xl font-bold ml-[20px] mt-[3%]">
                 Venue List with Ratings : { ratingList.size }
             </div>
-            <div>
             {
                 Array.from(ratingList).map((venue) => 
                     <div data-testid={venue[0]} key={venue[0]} className="w-full text-xl font-medium ml-[20px] mt-[5px]"
@@ -64,7 +85,6 @@ export default function CardPanel() {
                     </div>
                 )
             }
-            </div>
         </div>
     )
 }
